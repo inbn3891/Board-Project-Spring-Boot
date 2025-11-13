@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 상세</title>
+    <style>
+        .post-details { border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; }
+        .info-bar { display: flex; justify-content: space-between; font-size: 0.9em; color: #666; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .content { white-space: pre-wrap; margin-top: 15px; border: 1px solid #eee; padding: 15px; background: #f9f9f9; }
+        .button-group a, .button-group button { margin-right: 10px; }
+    </style>
+</head>
+<body>
+    <h1>게시글 상세</h1>
+
+    <div th:if="${post != null}" class="post-details">
+        <h2 th:text="${post.title}">제목입니다</h2>
+        
+        <div class="info-bar">
+            <span>작성자: <span th:text="${post.writer}">작성자</span></span>
+            <span>작성일: <span th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm')}"></span></span>
+            <span>수정일: <span th:text="${#temporals.format(post.modifiedDate, 'yyyy-MM-dd HH:mm')}"></span></span>
+            <span>조회수: <span th:text="${post.hit}">0</span></span>
+        </div>
+        
+        <div class="content" th:text="${post.content}"></div>
+
+    </div>
+
+    <div class="button-group">
+        <a th:href="@{/board/edit/{id}(id=${post.id})}">
+            <button>수정</button>
+        </a>
+        
+        <form th:action="@{/board/delete/{id}(id=${post.id})}" method="post" style="display:inline;">
+            <input type="hidden" name="_method" value="delete">
+            <button type="submit" onclick="return confirm('정말로 삭제하시겠습니까?');">삭제</button>
+        </form>
+        
+        <a th:href="@{/board/list}">
+            <button>목록</button>
+        </a>
+    </div>
+
+</body>
+
+</html>

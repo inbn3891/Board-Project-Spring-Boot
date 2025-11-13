@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>새 글 작성</title>
+</head>
+<body>
+<h1>새 글 작성</h1>
+    
+    <form th:action="@{/board/save}" th:object="${post}" method="post">
+        
+        <div>
+            <label for="title">제목:</label>
+            <input type="text" id="title" th:field="*{title}" required>
+            <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}" style="color: red;"></div>
+        </div>
+        
+        <div>
+            <label for="writer">작성자:</label>
+            <input type="text" id="writer" th:field="*{writer}" required>
+            <div th:if="${#fields.hasErrors('writer')}" th:errors="*{writer}" style="color: red;"></div>
+        </div>
+        
+        <div>
+            <label for="content">내용:</label>
+            <textarea id="content" rows="10" th:field="*{content}" required></textarea>
+            <div th:if="${#fields.hasErrors('content')}" th:errors="*{content}" style="color: red;"></div>
+        </div>
+        <div>
+            <button type="submit">저장</button>
+            <button type="button" onclick="location.href='/board/list'">취소</button>
+        </div>
+        </form>
+
+</body>
+</html>
+

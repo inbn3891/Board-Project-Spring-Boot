@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>오류 발생</title>
+</head>
+<body>
+    <h1>오류가 발생했습니다!</h1>
+    <p>요청 처리 중 문제가 발생했거나, 찾는 페이지가 존재하지 않을 수 있습니다.</p>
+    
+    <p>상태 코드: <span th:text="${status}"></span></p>
+    <p>오류 메시지: <span th:text="${error}"></span></p>
+
+    <a href="/board/list">목록으로 돌아가기</a>
+</body>
+</html>

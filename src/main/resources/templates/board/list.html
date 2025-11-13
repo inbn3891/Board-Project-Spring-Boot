@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 목록</title>
+    <style>
+        table { width: 80%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background-color: #f2f2f2; }
+        .button-group { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>게시글 목록</h1>
+
+    <form action="/board/list" method="get">
+        <select name="searchType">
+            <option value="title" th:selected="${params.searchType == 'title'}">제목</option>
+            <option value="content" th:selected="${params.searchType == 'content'}">내용</option>
+            <option value="writer" th:selected="${params.searchType == 'writer'}">작성자</option>
+        </select>
+        
+        <input type="text" name="keyword" th:value="${params.keyword}" placeholder="검색어를 입력하세요">
+        
+        <button type="submit">검색</button>
+        <a href="/board/list"><button type="button">초기화</button></a> 
+    </form>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>조회수</th>
+                <th>작성일</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="post : ${list}">
+                <td th:text="${post.id}">1</td>
+                <td>
+                    <a th:href="@{/board/view/{id}(id=${post.id})}" th:text="${post.title}">테스트 제목</a>
+                </td>
+                <td th:text="${post.writer}">작성자 이름</td>
+                <td th:text="${post.hit}">0</td>
+                <td th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm')}">2025-01-01 10:00</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div class="button-group">
+        <a th:href="@{/board/write}">
+            <button>새 글 작성</button>
+        </a>
+    </div>
+
+</body>
+
+
+<div style="text-align: center; margin-top: 20px;">
+        <a th:if="${response.startPage > 1}" 
+           th:href="@{/board/list(page=${response.startPage - 1}, searchType=${params.searchType}, keyword=${params.keyword})}">
+            <button>&lt;</button>
+        </a>
+
+        <th:block th:each="page : ${#numbers.sequence(response.startPage, response.endPage)}">
+            <a th:href="@{/board/list(page=${page}, searchType=${params.searchType}, keyword=${params.keyword})}">
+                <button th:text="${page}" 
+                        th:classappend="${page == response.currentPage} ? 'active' : ''"
+                        style="margin: 0 5px; font-weight: bold;"></button>
+            </a>
+        </th:block>
+
+        <a th:if="${response.endPage < response.totalPageCount}" 
+           th:href="@{/board/list(page=${response.endPage + 1}, searchType=${params.searchType}, keyword=${params.keyword})}">
+            <button>&gt;</button>
+        </a>
+    </div>
+    
+    <p style="text-align: right; margin-top: 10px;">
+        총 <span th:text="${response.totalCount}">0</span> 건
+    </p>
+
+    <style>
+        .active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+    </style>
+
+</html>

@@ -1,0 +1,37 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/java
+{
+	"name": "Java",
+
+	"dockerComposeFile": [
+		"../docker-compose.yml"
+	],
+// Docker 및 Docker Compose 지원을 위한 피처 추가
+    "features": {
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {
+            "version": "latest",
+            "mobsfVersion": "latest"
+        }
+    },
+	"service": "app",
+
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+
+	"shutdownAction": "stopCompose",
+
+	"forwardPorts": [8080, 5005],
+
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"vscjava.vscode-java-pack",
+				"vscjava.vscode-spring-boot-extension-pack",
+				"redhat.vscode-yaml",
+				"redhat.vscode-xml",
+				"ms-azuretools.vscode-docker"
+			]
+		}
+	},
+
+	"remoteUser": "vscode"
+}

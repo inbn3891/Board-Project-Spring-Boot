@@ -42,6 +42,16 @@
     * `<where>`, `<choose>`를 사용한 동적 쿼리로 복합 검색 조건에 단일 쿼리로 대응했습니다.
     * `LIMIT/OFFSET`을 적용하여 DB 부하를 최소화하는 **DB 레벨 페이징**을 구현했습니다.
 * **서버 Validation:** `@Valid`와 `th:errors`를 활용하여 서버 측 데이터 무결성을 보장하고, Validation 실패 시 **302 Redirect 대신 200 OK 상태**와 함께 오류 View를 반환하여 사용자 친화적인 피드백을 제공했습니다.
+* #### Board 테이블 스키마 (DDL은 `src/main/resources/schema.sql` 참고)
+| Field | Type | Null | Key | Default | 설계 의도 |
+| :---: | :---: | :---: | :---: | :---: | :--- |
+| **`id`** | BIGINT | NO | PRI | auto\_increment | 게시글 고유 ID (PK, 확장성 확보) |
+| **`title`** | VARCHAR(255) | NO | | NULL | 필수 항목 (`NOT NULL`) |
+| **`content`** | TEXT | NO |  | NULL | 필수 항목 (`TEXT`) |
+| **`writer`** | VARCHAR(30) | NO |  | NULL | **작성자 정보 누락 방지(`NOT NULL`) 설정** |
+| **`hit`** | INT | NO | | **0** | **조회수 누락 방지를 위한 DB 레벨 `DEFAULT 0` 설정** |
+| **`created_date`** | DATETIME | NO |  | NULL | 생성 시간 기록을 위한 (`NOT NULL`) |
+| **`modified_date`** | DATETIME | YES | | NULL | 수정 유연성을 위한 `NULL` 허용 |
 
 ### 3. 🧠 문제 해결 및 DevOps 경험
 
